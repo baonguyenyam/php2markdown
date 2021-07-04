@@ -95,21 +95,23 @@ include 'config.php';
     }
 
     $('#doUpload').on('click', function() {
-        var file_data = $('#uploadfile').prop('files')[0];   
-        var form_data = new FormData();                  
-        form_data.append('file', file_data);
-        $.ajax({
-            url: 'upload', // <-- point to server-side PHP script 
-            dataType: 'text',  // <-- what to expect back from the PHP script, if anything
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: form_data,                         
-            type: 'post',
-            success: function(php_script_response){
-                insertText('![ALT]('+php_script_response+' "Title")');
-            }
-        });
+        if($('#uploadfile').val().length > 0) {
+            var file_data = $('#uploadfile').prop('files')[0];   
+            var form_data = new FormData();                  
+            form_data.append('file', file_data);
+            $.ajax({
+                url: 'upload', // <-- point to server-side PHP script 
+                dataType: 'text',  // <-- what to expect back from the PHP script, if anything
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,                         
+                type: 'post',
+                success: function(php_script_response){
+                    insertText('![ALT]('+php_script_response+' "Title")');
+                }
+            });
+        }
     })
     var editor = CodeMirror.fromTextArea(document.getElementById("source"), {
         mode: "markdown",
