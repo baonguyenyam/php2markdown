@@ -5,7 +5,7 @@ define('ROOT_DOCS', 'docs');
 define('GITHUB_ENABLE', true);
 define('GITHUB_USER', 'baonguyenyam');
 define('GITHUB_TOKEN', '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');
-define('GITHUB_PASS', 'Thanhnguyen@2015');
+define('GITHUB_PASS', '');
 define('ROOT_API_URL', 'https://github.com/baonguyenyam/php2markdown/blob/main/docs');
 define('ROOT_API_ROOT', 'https://api.github.com/repos/baonguyenyam/php2markdown');
 define('ROOT_API_ROOT_DOCS', 'https://api.github.com/repos/baonguyenyam/php2markdown/contents/docs');
