@@ -9,5 +9,9 @@ function getPath($name) {
 function getMarkDownFile($name) {
     $Parsedown = new Parsedown();
     $file = isset($name) ? $name.'.md' : null;
-    echo $Parsedown->text(file_get_contents($file));
+    if(!@file_get_contents('.'. ROOT_DOCS .'/'.$file)) {
+        echo 'File not found';
+    } else {
+        echo $Parsedown->text(file_get_contents('.'. ROOT_DOCS .'/'.$file));
+    }
 }
