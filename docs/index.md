@@ -2,6 +2,14 @@
 
 Did you know that LIFT sets a global variable for you? To access any of your saved options from within your code you can use your global variable: **$lift_theme**
 
+```js
+console.log(1);
+```
+
+```css
+a {color:red}
+```
+
 ## SASS 
 
 Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.

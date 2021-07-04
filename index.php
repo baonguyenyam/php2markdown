@@ -18,6 +18,7 @@ require_once 'inc/buildHTML.php';
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/github-markdown.css" rel="stylesheet">
     <link href="/assets/css/dist/style.min.css" rel="stylesheet">
+    <link href="/assets/css/prism.css" rel="stylesheet">
 </head>
 
 <body>
@@ -75,6 +76,7 @@ require_once 'inc/buildHTML.php';
     </div>
 
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/prism.js"></script>
 
 </body>
 
