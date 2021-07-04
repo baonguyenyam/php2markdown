@@ -101,6 +101,9 @@ if(GITHUB_ENABLE) {
                     Route::add('/addfolder',function(){ 
                         include 'addfolder.php';
                     }, 'post');
+                    Route::add('/upload',function(){ 
+                        include 'upload.php';
+                    }, 'post');
                 }
 
                 Route::run('/');
@@ -110,8 +113,6 @@ if(GITHUB_ENABLE) {
             </main>
         </div>
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/js/prism.js"></script>
