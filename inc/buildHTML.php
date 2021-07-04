@@ -49,12 +49,13 @@ function getMarkDownFile() {
     }
 }
 function getMarkDownFileRePo() {
+    $get_Repo = isset($_GET['repo']) ? $_GET['repo'] : ROOT_API_URL. '/index.md';
     $get_Query = isset($_GET['read']) ? $_GET['read'] : '/';
     $Parsedown = new Parsedown();
     if(isset($get_Query) && $get_Query === '/') {
-        $file = 'index.md';
+        $file = ROOT_API_ROOT_RAW. '/index.md';
     }else if(isset($get_Query) && $get_Query !== '/') {
-        $file = $get_Query.'.md';
+        $file = $get_Query;
     }else {
         $file = null;
     }
@@ -63,6 +64,8 @@ function getMarkDownFileRePo() {
     } else {
         echo $Parsedown->text(file_get_contents($file));
     }
+
+    echo '<p>URL: <a href="'.$get_Repo.'">'.$get_Repo.'</a></p>';
 }
 function getDirContents($dir, &$results = array()) {
     $files = scandir($dir,SCANDIR_SORT_DESCENDING);
@@ -96,25 +99,18 @@ function getHtml($url, $post = null){
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
-    $agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36';
-    curl_setopt($ch, CURLOPT_VERBOSE, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-
+    curl_setopt($ch, CURLOPT_HTTPGET, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, "php/curl");
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+    // curl_setopt($ch, CURLOPT_USERPWD, GITHUB_USER . ":" . GITHUB_PASS);
     // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    //     'Content-Type: application/xml', 
+    //     'User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 YaBrowser/19.9.3.314 Yowser/2.5 Safari/537.36',
+    //     'Content-Type: application/json',
     //     'Accept: application/vnd.github.v3+json',
-    //     // 'Authorization: Bearer ' .GITHUB_TOKEN,
+    //     // 'Authorization: Bearer  ' .GITHUB_TOKEN,
     //     'Authorization: token '.GITHUB_TOKEN
     // ));
-    curl_setopt($ch, CURLOPT_USERPWD, GITHUB_USER . ":" . GITHUB_TOKEN);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-
-    if (!empty($post)) {
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post));
-    }
-
     $result = curl_exec($ch);
     curl_close($ch);
     return $result;
@@ -123,8 +119,11 @@ function getHtml($url, $post = null){
 function buildGitRepoMenu() {
     $data = buildGitRepo();
     foreach ($data as $key => $value) {
-        echo '<li class="nav-item"'.buildGitRepoOrder($value).'><a class="nav-link'.buildGitRepoActive($value).'" href="/?read='.buildGitRepoLink($value).'">'.buildGitRepoName($value).'</a></li>';
+        echo '<li class="nav-item"'.buildGitRepoOrder($value).'><a class="nav-link'.buildGitRepoActive($value).'" href="/?read='.buildGitRepoLink($value).'&repo='.buildGitRepoLinkFull($value).'">'.buildGitRepoName($value).'</a></li>';
     }
+}
+function buildGitRepoLinkFull($value) {
+    return $value['html_url'];
 }
 function buildGitRepoLink($value) {
     return $value['download_url'];
