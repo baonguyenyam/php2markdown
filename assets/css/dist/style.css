@@ -121,6 +121,14 @@ body {
 .navbar-brand {
     width: 250px;
   }
+
+  .markdown-body {
+    margin-left: 250px !important;
+    width: calc(100% - 250px);
+  }
+}
+#sidebarMenu {
+  background-color: #fdfdfd;
 }
 #sidebarMenu .list-group {
   border: 0;
