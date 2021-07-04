@@ -20,7 +20,12 @@ require_once 'inc/buildHTML.php';
     <link href="/assets/css/dist/style.min.css" rel="stylesheet">
     <link href="/assets/css/prism.css" rel="stylesheet">
 </head>
+<?php
 
+$path = '.'. ROOT_DOCS . '/';
+$list = getDirContents($path);
+
+?>
 <body>
 
     <?php include 'inc/header.php';?>
@@ -30,17 +35,20 @@ require_once 'inc/buildHTML.php';
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
                 <div class="position-sticky pt-3">
 
+
+                    
+
                     <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link<?=getPath('')?>" href="/">
-                                Homepage
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link<?=getPath('/about')?>" href="/about">
-                                About
-                            </a>
-                        </li>
+
+                        <?php
+                            foreach ($list as $key => $value) {
+                                if(isset($list[$key][0])) {
+                                    echo '<li class="nav-item"'.getPathOrder($list[$key][0]['dir'].'/'.$list[$key][0]['name']).'><a class="nav-link'.getPath($list[$key][0]['dir'].'/'.$list[$key][0]['name']).'" href="/?read='.$list[$key][0]['dir'].'/'.$list[$key][0]['name'].'">'.getPathName($list[$key][0]['dir'].'/'.$list[$key][0]['name']).'</a></li>';
+                                } else {
+                                    echo '<li class="nav-item"'.getPathOrder($list[$key]['dir'].'/'.$list[$key]['name']).'><a class="nav-link'.getPath($list[$key]['dir'].'/'.$list[$key]['name']).'" href="/?read='.$list[$key]['dir'].'/'.$list[$key]['name'].'">'.getPathName($list[$key]['dir'].'/'.$list[$key]['name']).'</a></li>';
+                                }
+                            }
+                        ?>
                         
 
                     </ul>
@@ -52,33 +60,30 @@ require_once 'inc/buildHTML.php';
 
                 <?php
                 Route::add('/',function(){ 
-                    getMarkDownFile('index');
+                    getMarkDownFile();
                 }, 'get');
-                Route::add('/about/',function(){ 
-                    getMarkDownFile('about/about');
-                }, 'get');
-                Route::add('/admin/',function(){ 
+                Route::add('/admin',function(){ 
                     include 'admin.php';
                 }, 'get');
-                Route::add('/edit/',function(){ 
+                Route::add('/edit',function(){ 
                     include 'edit.php';
                 }, 'get');
-                Route::add('/edit/',function(){ 
+                Route::add('/edit',function(){ 
                     include 'edit.php';
                 }, 'post');
-                Route::add('/add/',function(){ 
+                Route::add('/add',function(){ 
                     include 'add.php';
                 }, 'get');
-                Route::add('/add/',function(){ 
+                Route::add('/add',function(){ 
                     include 'add.php';
                 }, 'post');
-                Route::add('/del/',function(){ 
+                Route::add('/del',function(){ 
                     include 'del.php';
                 }, 'get');
-                Route::add('/addfolder/',function(){ 
+                Route::add('/addfolder',function(){ 
                     include 'addfolder.php';
                 }, 'get');
-                Route::add('/addfolder/',function(){ 
+                Route::add('/addfolder',function(){ 
                     include 'addfolder.php';
                 }, 'post');
 

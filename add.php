@@ -48,7 +48,8 @@ include 'config.php';
                     <input name="file" type="hidden" value="<?=isset($getFile)?$getFile:''?>">
 
                     <div class="my-3">
-                        <textarea name="source" id="source" cols="30" rows="40" class="form-control"></textarea>
+                        <textarea name="source" id="source" cols="30" rows="40" class="form-control">&lt;!--//Home Page,1//--&gt;
+</textarea>
                     </div>
 
                     <div class="text-end">
