@@ -70,41 +70,38 @@ if(GITHUB_ENABLE) {
                 <?php
 
                 if(GITHUB_ENABLE) {
-                    buildGitRepoMenu();
-
-                    Route::add('/',function(){ 
-                        // getMarkDownFile();
+                    Route::add('/',function(){
+                        getMarkDownFileRePo();
                     }, 'get');
                 } else {
                     Route::add('/',function(){ 
                         getMarkDownFile();
                     }, 'get');
+                    Route::add('/admin',function(){ 
+                        include 'admin.php';
+                    }, 'get');
+                    Route::add('/edit',function(){ 
+                        include 'edit.php';
+                    }, 'get');
+                    Route::add('/edit',function(){ 
+                        include 'edit.php';
+                    }, 'post');
+                    Route::add('/add',function(){ 
+                        include 'add.php';
+                    }, 'get');
+                    Route::add('/add',function(){ 
+                        include 'add.php';
+                    }, 'post');
+                    Route::add('/del',function(){ 
+                        include 'del.php';
+                    }, 'get');
+                    Route::add('/addfolder',function(){ 
+                        include 'addfolder.php';
+                    }, 'get');
+                    Route::add('/addfolder',function(){ 
+                        include 'addfolder.php';
+                    }, 'post');
                 }
-
-                Route::add('/admin',function(){ 
-                    include 'admin.php';
-                }, 'get');
-                Route::add('/edit',function(){ 
-                    include 'edit.php';
-                }, 'get');
-                Route::add('/edit',function(){ 
-                    include 'edit.php';
-                }, 'post');
-                Route::add('/add',function(){ 
-                    include 'add.php';
-                }, 'get');
-                Route::add('/add',function(){ 
-                    include 'add.php';
-                }, 'post');
-                Route::add('/del',function(){ 
-                    include 'del.php';
-                }, 'get');
-                Route::add('/addfolder',function(){ 
-                    include 'addfolder.php';
-                }, 'get');
-                Route::add('/addfolder',function(){ 
-                    include 'addfolder.php';
-                }, 'post');
 
                 Route::run('/');
 

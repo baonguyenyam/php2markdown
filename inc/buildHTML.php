@@ -48,6 +48,22 @@ function getMarkDownFile() {
         echo $Parsedown->text(file_get_contents('./'. ROOT_DOCS .'/'.$file));
     }
 }
+function getMarkDownFileRePo() {
+    $get_Query = isset($_GET['read']) ? $_GET['read'] : '/';
+    $Parsedown = new Parsedown();
+    if(isset($get_Query) && $get_Query === '/') {
+        $file = 'index.md';
+    }else if(isset($get_Query) && $get_Query !== '/') {
+        $file = $get_Query.'.md';
+    }else {
+        $file = null;
+    }
+    if(!@file_get_contents($file)) {
+        echo 'File not found';
+    } else {
+        echo $Parsedown->text(file_get_contents($file));
+    }
+}
 function getDirContents($dir, &$results = array()) {
     $files = scandir($dir,SCANDIR_SORT_DESCENDING);
 
@@ -71,6 +87,8 @@ function getDirContents($dir, &$results = array()) {
     }
     return $results;
 }
+
+
 function getHtml($url, $post = null){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -83,7 +101,12 @@ function getHtml($url, $post = null){
     curl_setopt($ch, CURLOPT_VERBOSE, true);
     curl_setopt($ch, CURLOPT_USERAGENT, $agent);
 
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', 'User-Agent:Php/Ayan Dhara'));
+    // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    //     'Content-Type: application/xml', 
+    //     'Accept: application/vnd.github.v3+json',
+    //     // 'Authorization: Bearer ' .GITHUB_TOKEN,
+    //     'Authorization: token '.GITHUB_TOKEN
+    // ));
     curl_setopt($ch, CURLOPT_USERPWD, GITHUB_USER . ":" . GITHUB_TOKEN);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
@@ -100,19 +123,28 @@ function getHtml($url, $post = null){
 function buildGitRepoMenu() {
     $data = buildGitRepo();
     foreach ($data as $key => $value) {
-        echo '<li class="nav-item"'.buildGitRepoOrder($value).'><a class="nav-link" href="">'.buildGitRepoName($value).'</a></li>';
+        echo '<li class="nav-item"'.buildGitRepoOrder($value).'><a class="nav-link'.buildGitRepoActive($value).'" href="/?read='.buildGitRepoLink($value).'">'.buildGitRepoName($value).'</a></li>';
+    }
+}
+function buildGitRepoLink($value) {
+    return $value['download_url'];
+}
+function buildGitRepoActive($value) {
+    $get_Query = isset($_GET['read']) ? $_GET['read'] : '/index';
+    $path = getHtml($value['download_url']);
+    if($path === $get_Query) {
+        return ' active';
     }
 }
 function buildGitRepoName($value) {
     $html = getHtml($value['download_url']);
     $line = preg_split('#\r?\n#', ltrim($html), 0)[0];
-    // var_dump($value);
     if (str_contains($line, "<!--//") && str_contains($line, "//-->")) {
         preg_match_all("/<!--\/\/(.*?)\/\/-->/",$line,$out);
         $getval = explode(",",$out[1][0]);
         return $getval[0];
     } else {
-        // return $value['name'];
+        return $value['name'];
     }
 }
 function buildGitRepoOrder($value) {
@@ -130,6 +162,7 @@ function buildGitRepo() {
     $html = getHtml(ROOT_API_ROOT_DOCS);
     $json = json_decode($html);
     $menu = array();
+    $loop = 0;
     foreach ($json as $key => $value) {
         if($json[$key]->type === 'dir') {
             $html2 = getHtml($json[$key]->url);
@@ -137,21 +170,23 @@ function buildGitRepo() {
             foreach ($json2 as $key2 => $value2) {
                 if($json2[$key2]->type === 'file') {
                     $variable2 = substr($json2[$key2]->path, strlen(ROOT_DOCS));
-                    $menu[$key2]['name'] = $json2[$key2]->name;
-                    $menu[$key2]['path'] = substr($variable2, 0, strrpos($variable2, "/")) . '/';
-                    $menu[$key2]['html_url'] = $json2[$key2]->html_url;
-                    $menu[$key2]['url'] = $json2[$key2]->url;
-                    $menu[$key2]['download_url'] = $json2[$key2]->download_url;
+                    $menu[$loop]['name'] = $json2[$key2]->name;
+                    $menu[$loop]['path'] = substr($variable2, 0, strrpos($variable2, "/")) . '/';
+                    $menu[$loop]['html_url'] = $json2[$key2]->html_url;
+                    $menu[$loop]['url'] = $json2[$key2]->url;
+                    $menu[$loop]['download_url'] = $json2[$key2]->download_url;
                 }
+                $loop++;
             }
         } else {
             $variable = substr($json[$key]->path, strlen(ROOT_DOCS));
-            $menu[$key]['name'] = $json[$key]->name;
-            $menu[$key]['path'] = substr($variable, 0, strrpos($variable, "/")) . '/';
-            $menu[$key]['html_url'] = $json[$key]->html_url;
-            $menu[$key]['url'] = $json[$key]->url;
-            $menu[$key]['download_url'] = $json[$key]->download_url;
+            $menu[$loop]['name'] = $json[$key]->name;
+            $menu[$loop]['path'] = substr($variable, 0, strrpos($variable, "/")) . '/';
+            $menu[$loop]['html_url'] = $json[$key]->html_url;
+            $menu[$loop]['url'] = $json[$key]->url;
+            $menu[$loop]['download_url'] = $json[$key]->download_url;
         }
+        $loop++;
     }
     return $menu;
 }
