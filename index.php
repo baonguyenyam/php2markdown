@@ -66,6 +66,21 @@ require_once 'inc/buildHTML.php';
                 Route::add('/edit/',function(){ 
                     include 'edit.php';
                 }, 'post');
+                Route::add('/add/',function(){ 
+                    include 'add.php';
+                }, 'get');
+                Route::add('/add/',function(){ 
+                    include 'add.php';
+                }, 'post');
+                Route::add('/del/',function(){ 
+                    include 'del.php';
+                }, 'get');
+                Route::add('/addfolder/',function(){ 
+                    include 'addfolder.php';
+                }, 'get');
+                Route::add('/addfolder/',function(){ 
+                    include 'addfolder.php';
+                }, 'post');
 
                 Route::run('/');
 

@@ -25,13 +25,11 @@ include 'config.php';
     <?php include 'inc/header.php';?>
 
     <?php
-        $getFile = isset($_GET['file']) ? $_GET['file'] : '';
-        $file = @file_get_contents('.'. ROOT_DOCS .'/'.$getFile);
-        !$file ? header('Location: /') : null;
-
+        $getFile = isset($_GET['to']) ? $_GET['to'] : '';
         if(!empty($_POST)) {
-            file_put_contents('.'. ROOT_DOCS .'/'.$_POST['file'], $_POST['source']);
-            header('Location: /edit?file='.$_POST['file']);
+
+            file_put_contents('.'. ROOT_DOCS .'/'.$_POST['file'] . trim($_POST['name']) . '.md', $_POST['source']);
+            header('Location: /');
         }
 
     ?>
@@ -42,18 +40,20 @@ include 'config.php';
 
                 <form action="" method="post">
 
-                <div class="text-end">
-                    <button type="submit" class="btn btn-primary">Update content</button>
-                    <input name="file" type="hidden" value="<?=isset($getFile)?$getFile:$_POST['file']?>">
-                </div>
+                    <div class="input-group mb-3">
+                        <input type="text" name="name" class="form-control" placeholder="File name"
+                            aria-label="File name" aria-describedby="basic-addon2">
+                        <span class="input-group-text" id="basic-addon2">.md</span>
+                    </div>
+                    <input name="file" type="hidden" value="<?=isset($getFile)?$getFile:''?>">
 
-                <div class="my-3">
-                    <textarea name="source" id="source" cols="30" rows="40" class="form-control"><?=$file?></textarea>
-                </div>
-                
-                <div class="text-end">
-                    <button type="submit" class="btn btn-primary">Update content</button>
-                </div>
+                    <div class="my-3">
+                        <textarea name="source" id="source" cols="30" rows="40" class="form-control"></textarea>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Create content</button>
+                    </div>
 
 
                 </form>
@@ -76,7 +76,9 @@ include 'config.php';
         lineWrapping: true,
         smartIndent: true,
         indentWithTabs: true,
-        extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
+        extraKeys: {
+            "Enter": "newlineAndIndentContinueMarkdownList"
+        }
     });
     editor.setOption("theme", 'monokai')
     editor.setSize(null, 750);
