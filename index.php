@@ -1,8 +1,10 @@
 <?php
+require_once 'inc/min.HTML.php';
 require_once 'config.php';
 require_once 'inc/route.php';
 require_once 'inc/Parsedown.php';
 require_once 'inc/buildHTML.php';
+
 ?>
 <!doctype html>
 <html lang="en">
