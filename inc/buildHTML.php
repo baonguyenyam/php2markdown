@@ -129,8 +129,8 @@ function buildGitRepoLink($value) {
     return $value['download_url'];
 }
 function buildGitRepoActive($value) {
-    $get_Query = isset($_GET['read']) ? $_GET['read'] : '/index';
-    $path = getHtml($value['download_url']);
+    $get_Query = isset($_GET['read']) ? $_GET['read'] : ROOT_API_ROOT_RAW. '/index.md';
+    $path = $value['download_url'];
     if($path === $get_Query) {
         return ' active';
     }

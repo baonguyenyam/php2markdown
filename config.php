@@ -2,7 +2,7 @@
 // Type Folder here
 define('ROOT_DOCS', 'docs');
 // IF you have enable Gitbub it will be fetch all file from github
-define('GITHUB_ENABLE', false);
+define('GITHUB_ENABLE', true);
 define('GITHUB_USER', 'baonguyenyam');
 define('GITHUB_TOKEN', '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');
 define('GITHUB_PASS', '');
