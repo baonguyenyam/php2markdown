@@ -93,6 +93,8 @@ function getDirContents($dir, &$results = array()) {
 
 
 function getHtml($url, $post = null){
+    // var_dump(shell_exec('curl -i -u '.GITHUB_USER.':'.GITHUB_TOKEN.' https://api.github.com/users/'.GITHUB_USER));
+    // var_dump(shell_exec('curl -i -H "Authorization: token '.GITHUB_TOKEN.'" https://api.github.com/users/'.GITHUB_USER));
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -103,14 +105,11 @@ function getHtml($url, $post = null){
     curl_setopt($ch, CURLOPT_USERAGENT, "php/curl");
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-    // curl_setopt($ch, CURLOPT_USERPWD, GITHUB_USER . ":" . GITHUB_PASS);
-    // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    //     'User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 YaBrowser/19.9.3.314 Yowser/2.5 Safari/537.36',
-    //     'Content-Type: application/json',
-    //     'Accept: application/vnd.github.v3+json',
-    //     // 'Authorization: Bearer  ' .GITHUB_TOKEN,
-    //     'Authorization: token '.GITHUB_TOKEN
-    // ));
+    curl_setopt($ch, CURLOPT_POST  , true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Accept: application/vnd.github.v3+json',
+        'Authorization: token '.GITHUB_TOKEN
+    ));
     $result = curl_exec($ch);
     curl_close($ch);
     return $result;

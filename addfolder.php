@@ -12,7 +12,7 @@ include 'config.php';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Nguyen Pham">
-    <title>Dev Docs</title>
+    <title><?=ROOT_DOCS_NAME?></title>
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/github-markdown.css" rel="stylesheet">
     <link href="/assets/css/dist/style.min.css" rel="stylesheet">

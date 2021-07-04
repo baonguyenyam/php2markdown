@@ -13,7 +13,7 @@ require_once 'inc/buildHTML.php';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Nguyen Pham">
-    <title>Dev Docs</title>
+    <title><?=ROOT_DOCS_NAME?></title>
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/github-markdown.css" rel="stylesheet">
     <link href="/assets/css/dist/style.min.css" rel="stylesheet">
@@ -22,9 +22,7 @@ require_once 'inc/buildHTML.php';
 <?php
 
 
-if(GITHUB_ENABLE) {
-    $path = ROOT_API_ROOT_DOCS;    
-} else {
+if(!GITHUB_ENABLE) {
     $path = './'. ROOT_DOCS . '/';
     $list = getDirContents($path);
 }
@@ -108,15 +106,16 @@ if(GITHUB_ENABLE) {
 
                 Route::run('/');
 
+
                 ?>
 
             </main>
         </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/js/prism.js"></script>
-
 
 </body>
 
