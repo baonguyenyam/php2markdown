@@ -28,7 +28,7 @@ include 'config.php';
         $getFile = isset($_GET['to']) ? $_GET['to'] : '';
         if(!empty($_POST)) {
 
-            file_put_contents('.'. ROOT_DOCS .'/'.$_POST['file'] . trim($_POST['name']) . '.md', $_POST['source']);
+            file_put_contents('./'. ROOT_DOCS .'/'.$_POST['file'] . trim($_POST['name']) . '.md', $_POST['source']);
             header('Location: /');
         }
 

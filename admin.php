@@ -17,13 +17,13 @@
 <?php
 
 include 'config.php';
-$src = getcwd() .ROOT_DOCS;
+$src = getcwd() . '/'. ROOT_DOCS;
 $list = array('.');
 
-$tmp = array_filter(glob('.'.ROOT_DOCS.'/*'), 'is_dir');
+$tmp = array_filter(glob('./'.ROOT_DOCS.'/*'), 'is_dir');
 foreach ($tmp as $key => $value) {
     array_push($list, pathinfo($value)['basename']);
-    $tmp2 = array_filter(glob('.'.ROOT_DOCS.'/'.pathinfo($value)['basename'].'/**'), 'is_dir');
+    $tmp2 = array_filter(glob('./'.ROOT_DOCS.'/'.pathinfo($value)['basename'].'/**'), 'is_dir');
 }
 ?>
 

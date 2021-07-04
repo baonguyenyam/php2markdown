@@ -1,5 +1,4 @@
 <?php
-require_once 'inc/min.HTML.php';
 require_once 'config.php';
 require_once 'inc/route.php';
 require_once 'inc/Parsedown.php';
@@ -22,8 +21,13 @@ require_once 'inc/buildHTML.php';
 </head>
 <?php
 
-$path = '.'. ROOT_DOCS . '/';
-$list = getDirContents($path);
+
+if(GITHUB_ENABLE) {
+    $path = ROOT_API_ROOT_DOCS;    
+} else {
+    $path = './'. ROOT_DOCS . '/';
+    $list = getDirContents($path);
+}
 
 ?>
 <body>
@@ -41,6 +45,10 @@ $list = getDirContents($path);
                     <ul class="nav flex-column">
 
                         <?php
+
+                        if(GITHUB_ENABLE) {
+                            buildGitRepoMenu();
+                        } else {
                             foreach ($list as $key => $value) {
                                 if(isset($list[$key][0])) {
                                     echo '<li class="nav-item"'.getPathOrder($list[$key][0]['dir'].'/'.$list[$key][0]['name']).'><a class="nav-link'.getPath($list[$key][0]['dir'].'/'.$list[$key][0]['name']).'" href="/?read='.$list[$key][0]['dir'].'/'.$list[$key][0]['name'].'">'.getPathName($list[$key][0]['dir'].'/'.$list[$key][0]['name']).'</a></li>';
@@ -48,6 +56,7 @@ $list = getDirContents($path);
                                     echo '<li class="nav-item"'.getPathOrder($list[$key]['dir'].'/'.$list[$key]['name']).'><a class="nav-link'.getPath($list[$key]['dir'].'/'.$list[$key]['name']).'" href="/?read='.$list[$key]['dir'].'/'.$list[$key]['name'].'">'.getPathName($list[$key]['dir'].'/'.$list[$key]['name']).'</a></li>';
                                 }
                             }
+                        }
                         ?>
                         
 
@@ -59,9 +68,19 @@ $list = getDirContents($path);
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-3 pb-4 markdown-body">
 
                 <?php
-                Route::add('/',function(){ 
-                    getMarkDownFile();
-                }, 'get');
+
+                if(GITHUB_ENABLE) {
+                    buildGitRepoMenu();
+
+                    Route::add('/',function(){ 
+                        // getMarkDownFile();
+                    }, 'get');
+                } else {
+                    Route::add('/',function(){ 
+                        getMarkDownFile();
+                    }, 'get');
+                }
+
                 Route::add('/admin',function(){ 
                     include 'admin.php';
                 }, 'get');

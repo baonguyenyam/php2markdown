@@ -26,11 +26,11 @@ include 'config.php';
 
     <?php
         $getFile = isset($_GET['file']) ? $_GET['file'] : '';
-        $file = @file_get_contents('.'. ROOT_DOCS .'/'.$getFile);
+        $file = @file_get_contents('./'. ROOT_DOCS .'/'.$getFile);
         !$file ? header('Location: /') : null;
 
         if(!empty($_POST)) {
-            file_put_contents('.'. ROOT_DOCS .'/'.$_POST['file'], $_POST['source']);
+            file_put_contents('./'. ROOT_DOCS .'/'.$_POST['file'], $_POST['source']);
             header('Location: /edit?file='.$_POST['file']);
         }
 
