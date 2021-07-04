@@ -106,13 +106,13 @@ function buildGitRepoMenu() {
 function buildGitRepoName($value) {
     $html = getHtml($value['download_url']);
     $line = preg_split('#\r?\n#', ltrim($html), 0)[0];
-    var_dump($value);
+    // var_dump($value);
     if (str_contains($line, "<!--//") && str_contains($line, "//-->")) {
         preg_match_all("/<!--\/\/(.*?)\/\/-->/",$line,$out);
         $getval = explode(",",$out[1][0]);
         return $getval[0];
     } else {
-        return $value['name'];
+        // return $value['name'];
     }
 }
 function buildGitRepoOrder($value) {
